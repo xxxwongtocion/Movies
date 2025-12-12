@@ -1,0 +1,149 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DarkX Extremely Movie Downloader</title>
+<style>
+    body{
+        margin:0;
+        font-family: Arial, sans-serif;
+        background:#000;
+        color:#fff;
+    }
+    .container{
+        padding:20px;
+    }
+    .login-box, .premium-box{
+        background:#111;
+        padding:20px;
+        border-radius:10px;
+        margin-bottom:20px;
+        border:1px solid #333;
+    }
+    input{
+        width:100%;
+        padding:10px;
+        border:none;
+        border-radius:5px;
+        margin-top:10px;
+    }
+    button{
+        margin-top:10px;
+        padding:12px;
+        width:100%;
+        background:#09f;
+        border:none;
+        border-radius:5px;
+        color:#fff;
+        font-size:16px;
+        font-weight:bold;
+    }
+    .movie-card{
+        background:#111;
+        padding:15px;
+        border-radius:10px;
+        margin-bottom:15px;
+        border:1px solid #222;
+    }
+    img{
+        width:100%;
+        border-radius:10px;
+    }
+    .token-btn{
+        background:green;
+        margin-top:40px;
+    }
+</style>
+</head>
+<body>
+<div class="container"><h2>DarkX Extremely Movie Downloader</h2>
+
+<!-- LOGIN BOX -->
+<div class="login-box" id="loginBox">
+    <h3>Get Unlimited Movies – Pay 1,000 TSh</h3>
+    <p>Free Trial Available – Login to continue</p>
+    <input type="text" id="username" placeholder="Enter Username">
+    <input type="password" id="password" placeholder="Enter Password">
+    <button onclick="login()">LOGIN</button>
+</div>
+
+<!-- PREMIUM LOGIN -->
+<div class="premium-box" id="premiumBox" style="display:none;">
+    <h3>Enter Premium Token</h3>
+    <p>Only Premium Users Access All Movies</p>
+    <input type="password" id="premiumPass" placeholder="Enter Premium Password">
+    <button onclick="premiumLogin()">UNLOCK PREMIUM</button>
+</div>
+
+<!-- MOVIES FREE TRIAL -->
+<div id="freeMovies" style="display:none;">
+    <h2>🎬 Welcome – Free Trial Movies</h2>
+
+    <!-- MOVIE 1 -->
+    <div class="movie-card">
+        <h3>Undisputed (2002)</h3>
+        <img src="https://moviesmod.cards/wp-content/uploads/2021/01/Download-Undisputed-2002-English-With-Subtitles-BluRay-480p.jpg">
+        <a href="https://moviesmod.cards/download-undisputed-2002-hindi-english-480p-720p-1080p/">
+            <button>DOWNLOAD</button>
+        </a>
+    </div>
+
+    <!-- MOVIE 2 -->
+    <div class="movie-card">
+        <h3>Undisputed 2 (2006)</h3>
+        <img src="https://moviesmod.cards/wp-content/uploads/2021/01/Download-Undisputed-2-Last-Man-Standing-2006-English-With-Subtitles-BluRay-480p.jpg">
+        <a href="https://moviesmod.cards/download-undisputed-2-last-man-standing-2006-hindi-english-480p-720p-1080p/">
+            <button>DOWNLOAD</button>
+        </a>
+    </div>
+
+    <!-- BUTTON TO BUY TOKEN -->
+    <button class="token-btn" onclick="buyToken()">BUY TOKEN (WhatsApp)</button>
+</div>
+
+<!-- PREMIUM MOVIES SECTION -->
+<div id="premiumMovies" style="display:none;">
+    <h2>🔥 PREMIUM MOVIES – Unlimited Download</h2>
+
+    <div class="movie-card">
+        <h3>Boyka: Undisputed (2016)</h3>
+        <img src="https://moviesmod.cards/wp-content/uploads/2021/01/Download-Boyka-Undisputed-2016-English-With-Subtitles-BluRay-480p.jpg">
+        <a href="https://moviesmod.cards/downlaod-boyka-undisputed-2016-english-hindi-480p-720p-1080p/">
+            <button>DOWNLOAD</button>
+        </a>
+    </div>
+
+    <div class="movie-card">
+        <h3>Undisputed 3: Redemption (2010)</h3>
+        <img src="https://moviesmod.cards/wp-content/uploads/2021/01/Download-Undisputed-3-Redemption-2010-English-With-Subtitles-BluRay-480p.jpg">
+        <a href="https://moviesmod.cards/download-undisputed-3-redemption-2010-hindi-480p-720p-1080p/">
+            <button>DOWNLOAD</button>
+        </a>
+    </div>
+
+    <!-- TOKEN BUTTON -->
+    <button class="token-btn" onclick="buyToken()">BUY TOKEN (WhatsApp)</button>
+</div>
+
+</div><script>
+function login(){
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("premiumBox").style.display = "block";
+    document.getElementById("freeMovies").style.display = "block";
+}
+
+function premiumLogin(){
+    let pass = document.getElementById("premiumPass").value;
+    if(pass === "11223344"){
+        document.getElementById("premiumMovies").style.display = "block";
+        alert("Premium Access Granted ✔");
+    } else {
+        alert("Wrong Premium Password ❌");
+    }
+}
+
+function buyToken(){
+    window.location.href = "https://wa.me/255775710774?text=Nahitaji%20premium%20token%20kwa%20movie%20downloader";
+}
+</script></body>
+</html>
