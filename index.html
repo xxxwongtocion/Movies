@@ -277,10 +277,17 @@
             color: var(--text-light);
         }
         
-        .movie-year {
+        .movie-meta {
+            display: flex;
+            justify-content: space-between;
             color: var(--text-dim);
             font-size: 0.9rem;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .movie-imdb {
+            color: #ffaa00;
+            font-weight: 600;
         }
         
         .badge {
@@ -437,7 +444,7 @@
             
             <div class="code-block">
                 // Authentication required for access<br>
-                // Free trial includes 2 movie downloads
+                // Free trial includes 4 movie downloads
             </div>
             
             <button class="btn btn-primary btn-block" onclick="login()">
@@ -445,7 +452,7 @@
             </button>
             
             <p style="text-align: center; margin-top: 20px; color: var(--text-dim);">
-                <i class="fas fa-info-circle"></i> Premium token unlocks unlimited downloads
+                <i class="fas fa-info-circle"></i> Premium token unlocks 30+ movies
             </p>
         </div>
         
@@ -465,7 +472,7 @@
                     <input type="password" id="premiumPass" class="form-control" placeholder="Enter premium token">
                 </div>
                 <p style="font-size: 0.9rem; color: var(--text-dim); margin-top: 8px;">
-                    <i class="fas fa-lightbulb"></i> Default token: <code>11223344</code>
+                    <i class="fas fa-lightbulb"></i> must add token <code>%</code>
                 </p>
             </div>
             
@@ -492,15 +499,15 @@
                     <h2 class="card-title">
                         <i class="fas fa-film"></i> Free Trial Movies
                     </h2>
-                    <span class="badge free">Limited Access</span>
+                    <span class="badge free">4 Movies - Limited Access</span>
                 </div>
                 
                 <p style="margin-bottom: 20px; color: var(--text-dim);">
-                    <i class="fas fa-info-circle"></i> You're currently on the free trial. Upgrade to premium for unlimited downloads.
+                    <i class="fas fa-info-circle"></i> You're currently on the free trial. Upgrade to premium for 30+ additional movies.
                 </p>
                 
                 <div class="movies-grid" id="freeMoviesGrid">
-                    <!-- Movies will be added here by JavaScript -->
+                    <!-- Free movies will be loaded here by JavaScript -->
                 </div>
                 
                 <div style="text-align: center; margin-top: 30px;">
@@ -518,7 +525,7 @@
                     <h2 class="card-title">
                         <i class="fas fa-crown"></i> Premium Movie Collection
                     </h2>
-                    <span class="badge premium">Unlimited Access</span>
+                    <span class="badge premium">30+ Movies - Unlimited Access</span>
                 </div>
                 
                 <div class="token-display">
@@ -530,7 +537,7 @@
                 </p>
                 
                 <div class="movies-grid" id="premiumMoviesGrid">
-                    <!-- Movies will be added here by JavaScript -->
+                    <!-- Premium movies will be loaded here by JavaScript -->
                 </div>
                 
                 <div style="text-align: center; margin-top: 30px;">
@@ -543,10 +550,10 @@
         
         <!-- Footer -->
         <footer class="app-footer">
-            <p>DarkX Pro Movie Downloader v2.1 • Developer Edition</p>
+            <p>DarkX Pro Movie Downloader v2.2 • Developer Edition</p>
             <div class="footer-links">
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
+                <a href="#" onclick="return false;">Privacy Policy</a>
+                <a href="#" onclick="return false;">Terms of Service</a>
                 <a href="#" onclick="showDeveloperInfo()">Developer Info</a>
                 <a href="#" onclick="showApiInfo()">API Documentation</a>
             </div>
@@ -554,52 +561,279 @@
     </div>
     
     <script>
-        // Movie data
+        // Free Trial Movies (Original 4 movies)
         const freeMovies = [
             {
                 title: "Undisputed (2002)",
                 year: "2002",
+                imdb: "IMDB 6.7",
                 image: "https://moviesmod.cards/wp-content/uploads/2021/01/Download-Undisputed-2002-English-With-Subtitles-BluRay-480p.jpg",
                 downloadUrl: "https://moviesmod.cards/download-undisputed-2002-hindi-english-480p-720p-1080p/",
-                quality: "480p/720p/1080p"
             },
             {
                 title: "Undisputed 2 (2006)",
                 year: "2006",
+                imdb: "IMDB 6.6",
                 image: "https://moviesmod.cards/wp-content/uploads/2021/01/Download-Undisputed-2-Last-Man-Standing-2006-English-With-Subtitles-BluRay-480p.jpg",
                 downloadUrl: "https://moviesmod.cards/download-undisputed-2-last-man-standing-2006-hindi-english-480p-720p-1080p/",
-                quality: "480p/720p/1080p"
-            }
-        ];
-        
-        const premiumMovies = [
+            },
             {
                 title: "Boyka: Undisputed (2016)",
                 year: "2016",
+                imdb: "IMDB 6.4",
                 image: "https://moviesmod.cards/wp-content/uploads/2021/01/Download-Boyka-Undisputed-2016-English-With-Subtitles-BluRay-480p.jpg",
                 downloadUrl: "https://moviesmod.cards/downlaod-boyka-undisputed-2016-english-hindi-480p-720p-1080p/",
-                quality: "480p/720p/1080p"
             },
             {
                 title: "Undisputed 3: Redemption (2010)",
                 year: "2010",
+                imdb: "IMDB 7.5",
                 image: "https://moviesmod.cards/wp-content/uploads/2021/01/Download-Undisputed-3-Redemption-2010-English-With-Subtitles-BluRay-480p.jpg",
                 downloadUrl: "https://moviesmod.cards/download-undisputed-3-redemption-2010-hindi-480p-720p-1080p/",
-                quality: "480p/720p/1080p"
+            }
+        ];
+        
+        // Premium Movies (New 30 movies)
+        const premiumMovies = [
+            {
+                "title": "Salve Maria (2024) Sinhala Subtitles",
+                "imdb": "IMDB 6.3",
+                "year": "2024",
+                "link": "https://pirate.lk/movies/salve-maria-2024-sinhala-sub/",
+                "image": "https://pirate.lk/wp-content/uploads/2025/11/c1vxdtbIyKE31mX9znwIsrHJ30S-150x150.jpg",
+                "type": "Movie"
             },
             {
-                title: "The Equalizer (2014)",
-                year: "2014",
-                image: "https://m.media-amazon.com/images/M/MV5BMTQ2MzE2NTk0NF5BMl5BanBnXkFtZTgwOTM3NTk1MjE@._V1_FMjpg_UX1000_.jpg",
-                downloadUrl: "#",
-                quality: "720p/1080p"
+                "title": "Customs Frontline (2024) Sinhala Subtitles",
+                "imdb": "IMDB 5.5",
+                "year": "2024",
+                "link": "https://pirate.lk/movies/customs-frontline-2024-sinhala-sub/",
+                "image": "https://pirate.lk/wp-content/uploads/2025/11/a869Prbl9FEWeWPWSw0Q3phE4Iv-150x150.jpg",
+                "type": "Movie"
             },
             {
-                title: "John Wick (2014)",
-                year: "2014",
-                image: "https://m.media-amazon.com/images/M/MV5BMTU2NjA1ODgzMF5BMl5BanBnXkFtZTgwMTM2MTI4MjE@._V1_.jpg",
-                downloadUrl: "#",
-                quality: "720p/1080p"
+                "title": "The Rats a Witcher Tale (2024) Sinhala Subtitles",
+                "imdb": "IMDB 4.7",
+                "year": "2025",
+                "link": "https://pirate.lk/movies/the-rats-a-witcher-tale-2024-sinhala-sub/",
+                "image": "https://pirate.lk/wp-content/uploads/2025/11/1T0kO1cgR430AC9I6jurMOezKwg-150x150.jpg",
+                "type": "Movie"
+            },
+            {
+                "title": "A Place Called Silence (2024) Sinhala Subtitles",
+                "imdb": "IMDB 6.5",
+                "year": "2024",
+                "link": "https://pirate.lk/movies/a-place-called-silence-2024-sinhala-sub/",
+                "image": "https://pirate.lk/wp-content/uploads/2025/11/uKThqY2oRYSHOPxYryTp2550fuZ-150x150.jpg",
+                "type": "Movie"
+            },
+            {
+                "title": "The Plot (2024) Sinhala Subtitles",
+                "imdb": "IMDB 4.8",
+                "year": "2024",
+                "link": "https://pirate.lk/movies/the-plot-2024-sinhala-sub/",
+                "image": "https://pirate.lk/wp-content/uploads/2025/11/pBZ1N68Ral2rtNzeQAmGFhDadq0-150x150.jpg",
+                "type": "Movie"
+            },
+            {
+                "title": "Eden (2024) Sinhala Subtitles",
+                "imdb": "IMDB 6.5",
+                "year": "2025",
+                "link": "https://pirate.lk/movies/eden-2024-sinhala-subtitles/",
+                "image": "https://pirate.lk/wp-content/uploads/2025/11/jbFEESMVbpJU8IjZBjiWGJdEsxR-150x150.jpg",
+                "type": "Movie"
+            },
+            {
+                "title": "Dead Talents Society (2024) Sinhala Subtitles",
+                "imdb": "IMDB 7",
+                "year": "2024",
+                "link": "https://pirate.lk/movies/dead-talents-society-2024-sinhala-sub/",
+                "image": "https://pirate.lk/wp-content/uploads/2025/11/yDcc3OWNEtzjDtJly1OyZShtTMV-150x150.jpg",
+                "type": "Movie"
+            },
+            {
+                "title": "Traumatika (2024) Sinhala Subtitles",
+                "imdb": "IMDB 4.8",
+                "year": "2025",
+                "link": "https://pirate.lk/movies/traumatika-2024-sinhala-sub/",
+                "image": "https://pirate.lk/wp-content/uploads/2025/10/jnINnXC7KHAVodspt9xIepEE9f6-150x150.jpg",
+                "type": "Movie"
+            },
+            {
+                "title": "Bosco (2024) Sinhala Subtitles",
+                "imdb": "IMDB 5.5",
+                "year": "2024",
+                "link": "https://pirate.lk/movies/bosco-2024-sinhala-sub/",
+                "image": "https://pirate.lk/wp-content/uploads/2025/05/dXjSeS3w97setnrNv4m6tlqqXzn-150x150.jpg",
+                "type": "Movie"
+            },
+            {
+                "title": "Devils Stay (2024) Sinhala Subtitles",
+                "imdb": "IMDB 4.8",
+                "year": "2024",
+                "link": "https://pirate.lk/movies/devils-stay-2024-sinhala-sub/",
+                "image": "https://pirate.lk/wp-content/uploads/2025/04/kQO9BGj2CnLEuT7Xw6eCbV6q2NN-150x150.jpg",
+                "type": "Movie"
+            },
+            {
+                "title": "Agents (2024) Sinhala Subtitles",
+                "imdb": "IMDB 3.6",
+                "year": "2024",
+                "link": "https://pirate.lk/movies/agents-2024-sinhala-sub/",
+                "image": "https://pirate.lk/wp-content/uploads/2025/03/xvdkVb070AqZZpTBOZzbrnsGL3d-150x150.jpg",
+                "type": "Movie"
+            },
+            {
+                "title": "Manamey (2024) Sinhala Subtitles",
+                "imdb": "N/A",
+                "year": "2024",
+                "link": "https://pirate.lk/movies/manamey-2024-sinhala-sub/",
+                "image": "https://pirate.lk/wp-content/uploads/2025/03/a3Q4pzat2v7Kml5K5bSuBfpnZcJ-150x150.jpg",
+                "type": "Movie"
+            },
+            {
+                "title": "The Curse of the Necklace (2024) Sinhala Subtitles",
+                "imdb": "IMDB 4.5",
+                "year": "2024",
+                "link": "https://pirate.lk/movies/the-curse-of-the-necklace-2024-sinhala-sub/",
+                "image": "https://pirate.lk/wp-content/uploads/2025/03/mk8dEpi3ePHyDbbkBuEbGtksjWX-150x150.jpg",
+                "type": "Movie"
+            },
+            {
+                "title": "Presence (2024) Sinhala Subtitles",
+                "imdb": "IMDB 6.2",
+                "year": "2025",
+                "link": "https://pirate.lk/movies/presence/",
+                "image": "https://pirate.lk/wp-content/uploads/2025/03/6tucXqfBMEVSuFZuVtTMLIOLZOe-150x150.jpg",
+                "type": "Movie"
+            },
+            {
+                "title": "Anora (2024) Sinhala Subtitles",
+                "imdb": "IMDB 7.6",
+                "year": "2024",
+                "link": "https://pirate.lk/movies/anora-2024-sinhala-sub/",
+                "image": "https://pirate.lk/wp-content/uploads/2025/03/qh8m8Udz0sCa5gy9VaqfHPh0yPM-150x150.jpg",
+                "type": "Movie"
+            },
+            {
+                "title": "Thanupp (2024) Sinhala Subtitles",
+                "imdb": "IMDB 6.6",
+                "year": "2024",
+                "link": "https://pirate.lk/movies/thanupp-2024-sinhala-sub/",
+                "image": "https://pirate.lk/wp-content/uploads/2025/03/nAwHuHr9JdXXzRYxSjC0NNm51IG-150x150.jpg",
+                "type": "Movie"
+            },
+            {
+                "title": "Grave Torture (2024) Sinhala Subtitles",
+                "imdb": "IMDB 6.2",
+                "year": "2024",
+                "link": "https://pirate.lk/movies/grave-torture-2024-sinhala-sub/",
+                "image": "https://pirate.lk/wp-content/uploads/2025/03/sDaiRx3OWvCOo1vLoEpdedLeVzY-150x150.jpg",
+                "type": "Movie"
+            },
+            {
+                "title": "Dirty Money (2024) Sinhala Subtitles",
+                "imdb": "IMDB 5.7",
+                "year": "2024",
+                "link": "https://pirate.lk/movies/dirty-money-2024-sinhala-sub/",
+                "image": "https://pirate.lk/wp-content/uploads/2025/03/aYgEyFCopQDGqcYkpPpDdMpZA44-150x150.jpg",
+                "type": "Movie"
+            },
+            {
+                "title": "Bogota: City of the Lost (2024) Sinhala Subtitles",
+                "imdb": "IMDB 5.4",
+                "year": "2024",
+                "link": "https://pirate.lk/movies/bogota-city-of-the-lost-2024-sinhala-sub/",
+                "image": "https://pirate.lk/wp-content/uploads/2025/03/p1WPGGPVHHVJwTjmUaCsbTNATgn-150x150.jpg",
+                "type": "Movie"
+            },
+            {
+                "title": "The Damned (2024) Sinhala Subtitles",
+                "imdb": "IMDB 5.7",
+                "year": "2025",
+                "link": "https://pirate.lk/movies/the-damned-2024-sinhala-sub/",
+                "image": "https://pirate.lk/wp-content/uploads/2025/03/fAXDQny8kEquc1BImiQHhYMGSsW-150x150.jpg",
+                "type": "Movie"
+            },
+            {
+                "title": "Oshana (2024) Sinhala Subtitles",
+                "imdb": "IMDB 6.2",
+                "year": "2024",
+                "link": "https://pirate.lk/movies/oshana-2024-sinhala-sub/",
+                "image": "https://pirate.lk/wp-content/uploads/2025/02/3r4mYUlTcDctHnlYI5EcjWPTs4G-150x150.jpg",
+                "type": "Movie"
+            },
+            {
+                "title": "Marco (2024) Sinhala Subtitles",
+                "imdb": "IMDB 7.2",
+                "year": "2024",
+                "link": "https://pirate.lk/movies/marco-2024-sinhala-sub/",
+                "image": "https://pirate.lk/wp-content/uploads/2025/02/il3ao5gcF6fZNqo1o9o7lusmEyU-150x150.jpg",
+                "type": "Movie"
+            },
+            {
+                "title": "Dosen Ghaib (2024) Sinhala Subtitles",
+                "imdb": "IMDB 4.3",
+                "year": "2024",
+                "link": "https://pirate.lk/movies/dosen-ghaib-2024-sinhala-sub/",
+                "image": "https://pirate.lk/wp-content/uploads/2025/02/zF1D2iiUtsvsjsA3IarOXryxn32-150x150.jpg",
+                "type": "Movie"
+            },
+            {
+                "title": "The Sabarmati Report (2024) Sinhala Subtitles",
+                "imdb": "IMDB 6.5",
+                "year": "2024",
+                "link": "https://pirate.lk/movies/the-sabarmati-report-2024-sinhala-sub/",
+                "image": "https://pirate.lk/wp-content/uploads/2025/02/ahOWjoqGkpxpmJVPmEBkSyvLPfi-150x150.jpg",
+                "type": "Movie"
+            },
+            {
+                "title": "Hisaab Barabar (2024) Sinhala Subtitles",
+                "imdb": "IMDB 5.8",
+                "year": "2024",
+                "link": "https://pirate.lk/movies/hisaab-barabar-2024-sinhala-sub/",
+                "image": "https://pirate.lk/wp-content/uploads/2025/02/zgyRlHt99KiBq7ZxY3tfoFQ5rLJ-150x150.jpg",
+                "type": "Movie"
+            },
+            {
+                "title": "Baby John (2024) Sinhala Subtitles",
+                "imdb": "IMDB 6.1",
+                "year": "2024",
+                "link": "https://pirate.lk/movies/baby-john-2024-sinhala-sub/",
+                "image": "https://pirate.lk/wp-content/uploads/2025/02/5Oqsh17dq0cIRFPynPNy5elmyxW-150x150.jpg",
+                "type": "Movie"
+            },
+            {
+                "title": "Babygirl (2024) Sinhala Subtitles",
+                "imdb": "IMDB 6.2",
+                "year": "2024",
+                "link": "https://pirate.lk/movies/babygirl-2024-sinhala-sub/",
+                "image": "https://pirate.lk/wp-content/uploads/2025/02/A8HbTd0FemZyFCh5qvJFpHGiwF8-150x150.jpg",
+                "type": "Movie"
+            },
+            {
+                "title": "Pemandi Jenazah (2024) Sinhala Subtitles",
+                "imdb": "IMDB 6.2",
+                "year": "2024",
+                "link": "https://pirate.lk/movies/pemandi-jenazah-2024-sinhala-sub/",
+                "image": "https://pirate.lk/wp-content/uploads/2025/02/1ZTrQWpuhxMr32uC1fQBRnkVYlf-150x150.jpg",
+                "type": "Movie"
+            },
+            {
+                "title": "Viduthalai Part 2 (2024) Sinhala Subtitles",
+                "imdb": "IMDB 8.1",
+                "year": "2024",
+                "link": "https://pirate.lk/movies/viduthalai-part-2-2024-sinhala-sub/",
+                "image": "https://pirate.lk/wp-content/uploads/2025/02/pRofNEH4lnP9ZFUDrra01Ma81Vi-150x150.jpg",
+                "type": "Movie"
+            },
+            {
+                "title": "Nosferatu (2024) Sinhala Subtitles",
+                "imdb": "IMDB 7.3",
+                "year": "2024",
+                "link": "https://pirate.lk/movies/nosferatu/",
+                "image": "https://pirate.lk/wp-content/uploads/2025/02/5qGIxdEO841C0tdY8vOdLoRVrr0-150x150.jpg",
+                "type": "Movie"
             }
         ];
         
@@ -625,14 +859,22 @@
         
         // Create movie card HTML
         function createMovieCard(movie, type) {
+            // Use a placeholder image if the provided one fails to load
+            const posterUrl = movie.image || 'https://via.placeholder.com/300x200/222233/ffffff?text=Movie+Poster';
+            const imdbText = movie.imdb || 'IMDB N/A';
+            const downloadUrl = movie.link || movie.downloadUrl || '#';
+            
             return `
                 <div class="movie-card">
-                    <img src="${movie.image}" alt="${movie.title}" class="movie-poster" onerror="this.src='https://via.placeholder.com/300x200/222233/ffffff?text=Movie+Poster'">
+                    <img src="${posterUrl}" alt="${movie.title}" class="movie-poster" onerror="this.src='https://via.placeholder.com/300x200/222233/ffffff?text=Poster+Not+Found'">
                     <div class="movie-info">
                         <h3 class="movie-title">${movie.title}</h3>
-                        <div class="movie-year">${movie.year} • ${movie.quality}</div>
-                        <span class="badge ${type}">${type === 'premium' ? 'Premium' : 'Free'}</span>
-                        <a href="${movie.downloadUrl}" target="_blank" class="btn btn-primary" style="width: 100%; margin-top: 10px;">
+                        <div class="movie-meta">
+                            <span class="movie-year">${movie.year}</span>
+                            <span class="movie-imdb">${imdbText}</span>
+                        </div>
+                        <span class="badge ${type}">${type === 'premium' ? 'Premium' : 'Free Trial'}</span>
+                        <a href="${downloadUrl}" target="_blank" class="btn btn-primary" style="width: 100%; margin-top: 10px;">
                             <i class="fas fa-download"></i> Download
                         </a>
                     </div>
@@ -672,7 +914,7 @@
             const pass = document.getElementById('premiumPass').value;
             
             if (pass === "11223344") {
-                // Hide free movies, show premium movies
+                // Hide free movies and premium card, show premium movies
                 document.getElementById('freeMovies').style.display = 'none';
                 document.getElementById('premiumCard').style.display = 'none';
                 document.getElementById('premiumMovies').style.display = 'block';
@@ -682,7 +924,7 @@
                 document.getElementById('statusBadge').innerHTML = '<i class="fas fa-crown"></i> Premium User';
                 
                 // Show success message
-                showNotification("Premium access granted!", "success");
+                showNotification("Premium access granted! 30+ movies unlocked.", "success");
                 
                 // Add animation
                 document.getElementById('premiumMovies').classList.add('fade-in');
@@ -729,21 +971,18 @@
         
         // Developer info
         function showDeveloperInfo() {
-            alert("DarkX Pro Downloader v2.1\n\nDeveloped with modern web technologies:\n- HTML5, CSS3, JavaScript\n- Responsive Design\n- Gradient UI Elements\n- Developer-friendly interface\n\nContact: +255 775 710 774");
+            alert("DarkX Pro Downloader v2.2\n\nUpdated with 30 new premium movies\nFree trial: 4 movies\nPremium: 30+ movies\n\nContact: +255 775 710 774");
         }
         
         // API info
         function showApiInfo() {
-            alert("API Documentation:\n\nAuthentication Endpoint: /api/auth\nMovie List Endpoint: /api/movies\nDownload Endpoint: /api/download/{id}\n\nAll endpoints require valid authentication token.");
+            alert("API Documentation:\n\nAuthentication Endpoint: /api/auth\nFree Movies: /api/movies/free (4 items)\nPremium Movies: /api/movies/premium (30+ items)\nDownload Endpoint: /api/download/{id}\n\nPremium endpoint requires valid token.");
         }
         
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
-            // Add some developer console message
-            console.log("%cDarkX Pro Downloader v2.1", "color: #09f; font-size: 16px; font-weight: bold;");
-            console.log("%cDeveloper mode active", "color: #00cc66;");
-            
-            // You could add more initialization code here
+            console.log("%cDarkX Pro Downloader v2.2", "color: #09f; font-size: 16px; font-weight: bold;");
+            console.log("%cMovies loaded: 4 Free, 30+ Premium", "color: #00cc66;");
         });
     </script>
 </body>
