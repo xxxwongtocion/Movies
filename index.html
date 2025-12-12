@@ -1,149 +1,750 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DarkX Extremely Movie Downloader</title>
-<style>
-    body{
-        margin:0;
-        font-family: Arial, sans-serif;
-        background:#000;
-        color:#fff;
-    }
-    .container{
-        padding:20px;
-    }
-    .login-box, .premium-box{
-        background:#111;
-        padding:20px;
-        border-radius:10px;
-        margin-bottom:20px;
-        border:1px solid #333;
-    }
-    input{
-        width:100%;
-        padding:10px;
-        border:none;
-        border-radius:5px;
-        margin-top:10px;
-    }
-    button{
-        margin-top:10px;
-        padding:12px;
-        width:100%;
-        background:#09f;
-        border:none;
-        border-radius:5px;
-        color:#fff;
-        font-size:16px;
-        font-weight:bold;
-    }
-    .movie-card{
-        background:#111;
-        padding:15px;
-        border-radius:10px;
-        margin-bottom:15px;
-        border:1px solid #222;
-    }
-    img{
-        width:100%;
-        border-radius:10px;
-    }
-    .token-btn{
-        background:green;
-        margin-top:40px;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DarkX Pro Movie Downloader</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #09f;
+            --primary-dark: #007acc;
+            --secondary: #00d4aa;
+            --dark-bg: #0a0a0f;
+            --darker-bg: #050508;
+            --card-bg: #12121a;
+            --card-border: #222233;
+            --text-light: #e0e0ff;
+            --text-dim: #a0a0c0;
+            --success: #00cc66;
+            --warning: #ffaa00;
+            --danger: #ff3366;
+            --radius: 8px;
+            --shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: var(--dark-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+            min-height: 100vh;
+            background-image: radial-gradient(circle at 20% 30%, rgba(0, 150, 255, 0.1) 0%, transparent 20%),
+                              radial-gradient(circle at 80% 80%, rgba(100, 0, 255, 0.1) 0%, transparent 20%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header Styles */
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .logo-text h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+        
+        .logo-text p {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            margin-top: 5px;
+        }
+        
+        .status-badge {
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .status-badge.free {
+            color: var(--warning);
+        }
+        
+        .status-badge.premium {
+            color: var(--success);
+            background: rgba(0, 204, 102, 0.1);
+            border-color: rgba(0, 204, 102, 0.3);
+        }
+        
+        /* Card Styles */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid var(--card-border);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .card:hover {
+            border-color: rgba(0, 150, 255, 0.3);
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .card-title {
+            font-size: 1.4rem;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card-title i {
+            color: var(--primary);
+        }
+        
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .input-with-icon {
+            position: relative;
+        }
+        
+        .input-with-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius);
+            color: var(--text-light);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 150, 255, 0.2);
+        }
+        
+        /* Button Styles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 25px;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+        
+        .btn-block {
+            width: 100%;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 150, 255, 0.3);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #00aa55);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: linear-gradient(135deg, #00aa55, var(--success));
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 204, 102, 0.3);
+        }
+        
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+        }
+        
+        .btn-whatsapp:hover {
+            background: linear-gradient(135deg, #128C7E, #25D366);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+        }
+        
+        /* Movie Grid */
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .movie-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+            transition: var(--transition);
+            height: 100%;
+        }
+        
+        .movie-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .movie-poster {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .movie-info {
+            padding: 20px;
+        }
+        
+        .movie-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--text-light);
+        }
+        
+        .movie-year {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .badge.premium {
+            background: rgba(0, 204, 102, 0.2);
+            color: var(--success);
+        }
+        
+        .badge.free {
+            background: rgba(255, 170, 0, 0.2);
+            color: var(--warning);
+        }
+        
+        /* Footer */
+        .app-footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+        }
+        
+        .footer-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .app-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .movies-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .movies-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        /* Code-like elements */
+        .code-block {
+            background: rgba(0, 0, 0, 0.4);
+            border-left: 3px solid var(--primary);
+            padding: 15px;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            font-size: 0.9rem;
+            color: #a0d8ff;
+        }
+        
+        .token-display {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 15px;
+            border-radius: var(--radius);
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            color: var(--success);
+            text-align: center;
+            border: 1px dashed rgba(0, 204, 102, 0.3);
+        }
+    </style>
 </head>
 <body>
-<div class="container"><h2>DarkX Extremely Movie Downloader</h2>
-
-<!-- LOGIN BOX -->
-<div class="login-box" id="loginBox">
-    <h3>Get Unlimited Movies – Pay 1,000 TSh</h3>
-    <p>Free Trial Available – Login to continue</p>
-    <input type="text" id="username" placeholder="Enter Username">
-    <input type="password" id="password" placeholder="Enter Password">
-    <button onclick="login()">LOGIN</button>
-</div>
-
-<!-- PREMIUM LOGIN -->
-<div class="premium-box" id="premiumBox" style="display:none;">
-    <h3>Enter Premium Token</h3>
-    <p>Only Premium Users Access All Movies</p>
-    <input type="password" id="premiumPass" placeholder="Enter Premium Password">
-    <button onclick="premiumLogin()">UNLOCK PREMIUM</button>
-</div>
-
-<!-- MOVIES FREE TRIAL -->
-<div id="freeMovies" style="display:none;">
-    <h2>🎬 Welcome – Free Trial Movies</h2>
-
-    <!-- MOVIE 1 -->
-    <div class="movie-card">
-        <h3>Undisputed (2002)</h3>
-        <img src="https://moviesmod.cards/wp-content/uploads/2021/01/Download-Undisputed-2002-English-With-Subtitles-BluRay-480p.jpg">
-        <a href="https://moviesmod.cards/download-undisputed-2002-hindi-english-480p-720p-1080p/">
-            <button>DOWNLOAD</button>
-        </a>
+    <div class="container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-film"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>DarkX Pro Downloader</h1>
+                    <p>Premium movie downloads with developer-grade UI</p>
+                </div>
+            </div>
+            <div class="status-badge free" id="statusBadge">
+                <i class="fas fa-user"></i> Free Trial User
+            </div>
+        </header>
+        
+        <!-- Login Section -->
+        <div class="card fade-in" id="loginCard">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <i class="fas fa-sign-in-alt"></i> Account Authentication
+                </h2>
+                <span class="badge free">Trial Available</span>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Username</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="username" class="form-control" placeholder="Enter your username">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-key"></i>
+                    <input type="password" id="password" class="form-control" placeholder="Enter your password">
+                </div>
+            </div>
+            
+            <div class="code-block">
+                // Authentication required for access<br>
+                // Free trial includes 2 movie downloads
+            </div>
+            
+            <button class="btn btn-primary btn-block" onclick="login()">
+                <i class="fas fa-unlock"></i> Authenticate & Continue
+            </button>
+            
+            <p style="text-align: center; margin-top: 20px; color: var(--text-dim);">
+                <i class="fas fa-info-circle"></i> Premium token unlocks unlimited downloads
+            </p>
+        </div>
+        
+        <!-- Premium Token Section (Hidden Initially) -->
+        <div class="card fade-in" id="premiumCard" style="display: none;">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <i class="fas fa-crown"></i> Premium Access
+                </h2>
+                <span class="badge premium">Exclusive</span>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Premium Token</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-shield-alt"></i>
+                    <input type="password" id="premiumPass" class="form-control" placeholder="Enter premium token">
+                </div>
+                <p style="font-size: 0.9rem; color: var(--text-dim); margin-top: 8px;">
+                    <i class="fas fa-lightbulb"></i> Default token: <code>11223344</code>
+                </p>
+            </div>
+            
+            <div class="code-block">
+                // Premium token validation required<br>
+                // Grants unlimited access to all movies
+            </div>
+            
+            <button class="btn btn-success btn-block" onclick="premiumLogin()">
+                <i class="fas fa-check-circle"></i> Validate & Unlock Premium
+            </button>
+            
+            <div style="text-align: center; margin-top: 25px;">
+                <button class="btn btn-whatsapp" onclick="buyToken()">
+                    <i class="fab fa-whatsapp"></i> Purchase Premium Token (TSh 1,000)
+                </button>
+            </div>
+        </div>
+        
+        <!-- Free Movies Section (Hidden Initially) -->
+        <div id="freeMovies" style="display: none;">
+            <div class="card fade-in">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <i class="fas fa-film"></i> Free Trial Movies
+                    </h2>
+                    <span class="badge free">Limited Access</span>
+                </div>
+                
+                <p style="margin-bottom: 20px; color: var(--text-dim);">
+                    <i class="fas fa-info-circle"></i> You're currently on the free trial. Upgrade to premium for unlimited downloads.
+                </p>
+                
+                <div class="movies-grid" id="freeMoviesGrid">
+                    <!-- Movies will be added here by JavaScript -->
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="btn btn-whatsapp" onclick="buyToken()">
+                        <i class="fab fa-whatsapp"></i> Upgrade to Premium (TSh 1,000)
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Premium Movies Section (Hidden Initially) -->
+        <div id="premiumMovies" style="display: none;">
+            <div class="card fade-in">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <i class="fas fa-crown"></i> Premium Movie Collection
+                    </h2>
+                    <span class="badge premium">Unlimited Access</span>
+                </div>
+                
+                <div class="token-display">
+                    <i class="fas fa-check-circle"></i> Premium Token Validated
+                </div>
+                
+                <p style="margin-bottom: 20px; color: var(--success);">
+                    <i class="fas fa-star"></i> Full access granted! Download all movies without limitations.
+                </p>
+                
+                <div class="movies-grid" id="premiumMoviesGrid">
+                    <!-- Movies will be added here by JavaScript -->
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="btn btn-whatsapp" onclick="buyToken()">
+                        <i class="fab fa-whatsapp"></i> Extend Premium Subscription
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>DarkX Pro Movie Downloader v2.1 • Developer Edition</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#" onclick="showDeveloperInfo()">Developer Info</a>
+                <a href="#" onclick="showApiInfo()">API Documentation</a>
+            </div>
+        </footer>
     </div>
-
-    <!-- MOVIE 2 -->
-    <div class="movie-card">
-        <h3>Undisputed 2 (2006)</h3>
-        <img src="https://moviesmod.cards/wp-content/uploads/2021/01/Download-Undisputed-2-Last-Man-Standing-2006-English-With-Subtitles-BluRay-480p.jpg">
-        <a href="https://moviesmod.cards/download-undisputed-2-last-man-standing-2006-hindi-english-480p-720p-1080p/">
-            <button>DOWNLOAD</button>
-        </a>
-    </div>
-
-    <!-- BUTTON TO BUY TOKEN -->
-    <button class="token-btn" onclick="buyToken()">BUY TOKEN (WhatsApp)</button>
-</div>
-
-<!-- PREMIUM MOVIES SECTION -->
-<div id="premiumMovies" style="display:none;">
-    <h2>🔥 PREMIUM MOVIES – Unlimited Download</h2>
-
-    <div class="movie-card">
-        <h3>Boyka: Undisputed (2016)</h3>
-        <img src="https://moviesmod.cards/wp-content/uploads/2021/01/Download-Boyka-Undisputed-2016-English-With-Subtitles-BluRay-480p.jpg">
-        <a href="https://moviesmod.cards/downlaod-boyka-undisputed-2016-english-hindi-480p-720p-1080p/">
-            <button>DOWNLOAD</button>
-        </a>
-    </div>
-
-    <div class="movie-card">
-        <h3>Undisputed 3: Redemption (2010)</h3>
-        <img src="https://moviesmod.cards/wp-content/uploads/2021/01/Download-Undisputed-3-Redemption-2010-English-With-Subtitles-BluRay-480p.jpg">
-        <a href="https://moviesmod.cards/download-undisputed-3-redemption-2010-hindi-480p-720p-1080p/">
-            <button>DOWNLOAD</button>
-        </a>
-    </div>
-
-    <!-- TOKEN BUTTON -->
-    <button class="token-btn" onclick="buyToken()">BUY TOKEN (WhatsApp)</button>
-</div>
-
-</div><script>
-function login(){
-    document.getElementById("loginBox").style.display = "none";
-    document.getElementById("premiumBox").style.display = "block";
-    document.getElementById("freeMovies").style.display = "block";
-}
-
-function premiumLogin(){
-    let pass = document.getElementById("premiumPass").value;
-    if(pass === "11223344"){
-        document.getElementById("premiumMovies").style.display = "block";
-        alert("Premium Access Granted ✔");
-    } else {
-        alert("Wrong Premium Password ❌");
-    }
-}
-
-function buyToken(){
-    window.location.href = "https://wa.me/255775710774?text=Nahitaji%20premium%20token%20kwa%20movie%20downloader";
-}
-</script></body>
-</html>
+    
+    <script>
+        // Movie data
+        const freeMovies = [
+            {
+                title: "Undisputed (2002)",
+                year: "2002",
+                image: "https://moviesmod.cards/wp-content/uploads/2021/01/Download-Undisputed-2002-English-With-Subtitles-BluRay-480p.jpg",
+                downloadUrl: "https://moviesmod.cards/download-undisputed-2002-hindi-english-480p-720p-1080p/",
+                quality: "480p/720p/1080p"
+            },
+            {
+                title: "Undisputed 2 (2006)",
+                year: "2006",
+                image: "https://moviesmod.cards/wp-content/uploads/2021/01/Download-Undisputed-2-Last-Man-Standing-2006-English-With-Subtitles-BluRay-480p.jpg",
+                downloadUrl: "https://moviesmod.cards/download-undisputed-2-last-man-standing-2006-hindi-english-480p-720p-1080p/",
+                quality: "480p/720p/1080p"
+            }
+        ];
+        
+        const premiumMovies = [
+            {
+                title: "Boyka: Undisputed (2016)",
+                year: "2016",
+                image: "https://moviesmod.cards/wp-content/uploads/2021/01/Download-Boyka-Undisputed-2016-English-With-Subtitles-BluRay-480p.jpg",
+                downloadUrl: "https://moviesmod.cards/downlaod-boyka-undisputed-2016-english-hindi-480p-720p-1080p/",
+                quality: "480p/720p/1080p"
+            },
+            {
+                title: "Undisputed 3: Redemption (2010)",
+                year: "2010",
+                image: "https://moviesmod.cards/wp-content/uploads/2021/01/Download-Undisputed-3-Redemption-2010-English-With-Subtitles-BluRay-480p.jpg",
+                downloadUrl: "https://moviesmod.cards/download-undisputed-3-redemption-2010-hindi-480p-720p-1080p/",
+                quality: "480p/720p/1080p"
+            },
+            {
+                title: "The Equalizer (2014)",
+                year: "2014",
+                image: "https://m.media-amazon.com/images/M/MV5BMTQ2MzE2NTk0NF5BMl5BanBnXkFtZTgwOTM3NTk1MjE@._V1_FMjpg_UX1000_.jpg",
+                downloadUrl: "#",
+                quality: "720p/1080p"
+            },
+            {
+                title: "John Wick (2014)",
+                year: "2014",
+                image: "https://m.media-amazon.com/images/M/MV5BMTU2NjA1ODgzMF5BMl5BanBnXkFtZTgwMTM2MTI4MjE@._V1_.jpg",
+                downloadUrl: "#",
+                quality: "720p/1080p"
+            }
+        ];
+        
+        // Initialize movie grids
+        function initMovieGrids() {
+            const freeGrid = document.getElementById('freeMoviesGrid');
+            const premiumGrid = document.getElementById('premiumMoviesGrid');
+            
+            // Clear existing content
+            freeGrid.innerHTML = '';
+            premiumGrid.innerHTML = '';
+            
+            // Add free movies
+            freeMovies.forEach(movie => {
+                freeGrid.innerHTML += createMovieCard(movie, 'free');
+            });
+            
+            // Add premium movies
+            premiumMovies.forEach(movie => {
+                premiumGrid.innerHTML += createMovieCard(movie, 'premium');
+            });
+        }
+        
+        // Create movie card HTML
+        function createMovieCard(movie, type) {
+            return `
+                <div class="movie-card">
+                    <img src="${movie.image}" alt="${movie.title}" class="movie-poster" onerror="this.src='https://via.placeholder.com/300x200/222233/ffffff?text=Movie+Poster'">
+                    <div class="movie-info">
+                        <h3 class="movie-title">${movie.title}</h3>
+                        <div class="movie-year">${movie.year} • ${movie.quality}</div>
+                        <span class="badge ${type}">${type === 'premium' ? 'Premium' : 'Free'}</span>
+                        <a href="${movie.downloadUrl}" target="_blank" class="btn btn-primary" style="width: 100%; margin-top: 10px;">
+                            <i class="fas fa-download"></i> Download
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Login function
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (!username || !password) {
+                alert("Please enter both username and password");
+                return;
+            }
+            
+            // Hide login card, show premium card and free movies
+            document.getElementById('loginCard').style.display = 'none';
+            document.getElementById('premiumCard').style.display = 'block';
+            document.getElementById('freeMovies').style.display = 'block';
+            
+            // Update status badge
+            document.getElementById('statusBadge').className = 'status-badge free';
+            document.getElementById('statusBadge').innerHTML = '<i class="fas fa-user"></i> Free User: ' + username;
+            
+            // Initialize movie grids
+            initMovieGrids();
+            
+            // Add animation
+            document.getElementById('premiumCard').classList.add('fade-in');
+            document.getElementById('freeMovies').classList.add('fade-in');
+        }
+        
+        // Premium login function
+        function premiumLogin() {
+            const pass = document.getElementById('premiumPass').value;
+            
+            if (pass === "11223344") {
+                // Hide free movies, show premium movies
+                document.getElementById('freeMovies').style.display = 'none';
+                document.getElementById('premiumCard').style.display = 'none';
+                document.getElementById('premiumMovies').style.display = 'block';
+                
+                // Update status badge
+                document.getElementById('statusBadge').className = 'status-badge premium';
+                document.getElementById('statusBadge').innerHTML = '<i class="fas fa-crown"></i> Premium User';
+                
+                // Show success message
+                showNotification("Premium access granted!", "success");
+                
+                // Add animation
+                document.getElementById('premiumMovies').classList.add('fade-in');
+            } else {
+                showNotification("Invalid premium token!", "error");
+            }
+        }
+        
+        // Buy token function
+        function buyToken() {
+            window.location.href = "https://wa.me/255775710774?text=Nahitaji%20premium%20token%20kwa%20movie%20downloader";
+        }
+        
+        // Show notification
+        function showNotification(message, type) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `card ${type === 'success' ? 'badge premium' : 'badge free'}`;
+            notification.style.position = 'fixed';
+            notification.style.top = '20px';
+            notification.style.right = '20px';
+            notification.style.zIndex = '1000';
+            notification.style.padding = '15px';
+            notification.style.minWidth = '250px';
+            notification.style.boxShadow = '0 5px 15px rgba(0,0,0,0.5)';
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+                    <div>${message}</div>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transition = 'opacity 0.5s';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 500);
+            }, 3000);
+        }
+        
+        // Developer info
+        function showDeveloperInfo() {
+            alert("DarkX Pro Downloader v2.1\n\nDeveloped with modern web technologies:\n- HTML5, CSS3, JavaScript\n- Responsive Design\n- Gradient UI Elements\n- Developer-friendly interface\n\nContact: +255 775 710 774");
+        }
+        
+        // API info
+        function showApiInfo() {
+            alert("API Documentation:\n\nAuthentication Endpoint: /api/auth\nMovie List Endpoint: /api/movies\nDownload Endpoint: /api/download/{id}\n\nAll endpoints require valid authentication token.");
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add some developer console message
+            console.log("%cDarkX Pro Downloader v2.1", "color: #09f; font-size: 16px; font-weight: bold;");
+            console.log("%cDeveloper mode active", "color: #00cc66;");
+            
+            // You could add more initialization code here
+        });
+    </script>
+</body>
+    </html>
